@@ -38,6 +38,7 @@ namespace ContentPatcherAnimations.Framework
                 assetName = assetName[..^this.CurrentLanguageSuffix.Length]; // normalize `assetName.fr-FR` to `assetName`
             */
 
+            assetName = Mod.instance.Helper.GameContent.ParseAssetName(assetName.BaseName);
             if (!this.LastDrawn.TryGetValue(assetName, out AssetDrawData data))
                 this.LastDrawn[assetName] = data = new AssetDrawData(assetName);
 
@@ -50,6 +51,7 @@ namespace ContentPatcherAnimations.Framework
         /// <param name="maxTicksAgo">The maximum ticks since the area was drawn to consider.</param>
         public bool WasDrawnWithin(IAssetName normalizedAssetName, Rectangle area, int maxTicksAgo)
         {
+            normalizedAssetName = Mod.instance.Helper.GameContent.ParseAssetName(normalizedAssetName.BaseName);
             return
                 this.LastDrawn.TryGetValue(normalizedAssetName, out AssetDrawData data)
                 && data.WasDrawnWithin(area, maxTicksAgo);
